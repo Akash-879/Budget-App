@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL : postgresql://ubuntu:password@db:5432/Budgy_development
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ubuntu
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: Budgy_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
