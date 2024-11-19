@@ -8,6 +8,6 @@ spec:
     server: https://kubernetes.default.svc
   source:
     repoURL: 'https://github.com/Akash-879/Budget-App'
-    targetRevision: HEAD
+    targetRevision: master
     path: kubernetes
   project: default
