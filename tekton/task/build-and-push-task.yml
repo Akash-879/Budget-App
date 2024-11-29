@@ -1,23 +1,27 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: build-and-push
+  name: kaniko-build
 spec:
   params:
-    - name: IMAGE
-      description: Docker image to build and push
-      type: string
-  workspaces:
-    - name: source
+  - name: image-url
+    type: string
+    description: "The URL of the Docker image to push"
   steps:
-    - name: build-and-push
-      image: gcr.io/kaniko-project/executor:latest
-      env:
-        - name: DOCKER_CONFIG
-          value: /tekton/home/.docker/
-      script: |
-        #!/busybox/sh
-        /kaniko/executor \
-          --dockerfile=/workspace/source/Dockerfile \
-          --context=/workspace/source \
-          --destination=$(params.IMAGE)
+  - name: build-and-push
+    image: gcr.io/kaniko-project/executor:latest
+    env:
+    - name: DOCKER_CONFIG
+      value: /tekton/home/.docker
+    script: |-
+      #!/bin/sh
+      /kaniko/executor --dockerfile=/workspace/Dockerfile \
+                       --context=/workspace/source \
+                       --destination= $(params.image-url)
+    volumeMounts:
+    - name: docker-config
+      mountPath: /tekton/home/.docker
+  volumes:
+  - name: docker-config
+    secret:
+      secretName: docker-hub-secret

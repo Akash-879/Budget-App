@@ -1,14 +1,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: build-and-push-run
+  name: build-and-push-pipeline-run-2
 spec:
   pipelineRef:
     name: build-and-push-pipeline
   params:
-    - name: IMAGE
-      value: docker.io/akash879/rails:v2
-  workspaces:
-    - name: shared-workspace
-      persistentVolumeClaim:
-        claimName: tekton-workspace-pvc
+  - name: image-url
+    value: docker.io/akash879/rails:v2

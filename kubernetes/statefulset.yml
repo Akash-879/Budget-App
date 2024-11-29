@@ -18,7 +18,7 @@ spec:
         image: postgres:15
         env:
         - name: POSTGRES_USER
-          value: "ubuntu"
+          value: "postgres"
         - name: POSTGRES_PASSWORD
           value: "password"
         - name: POSTGRES_DB

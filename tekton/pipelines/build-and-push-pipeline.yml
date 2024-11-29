@@ -4,23 +4,12 @@ metadata:
   name: build-and-push-pipeline
 spec:
   params:
-    - name: IMAGE
-      description: Docker image to build and push
-  workspaces:
-    - name: shared-workspace
+  - name: image-url
+    description: "The URL of the Docker image to push"
   tasks:
-    - name: clone
-      taskRef:
-        name: clone-repo
-      workspaces:
-        - name: source
-          workspace: shared-workspace
-    - name: build-and-push
-      taskRef:
-        name: build-and-push
-      params:
-        - name: IMAGE
-          value: $(params.IMAGE)
-      workspaces:
-        - name: source
-          workspace: shared-workspace
+  - name: build
+    taskRef:
+      name: kaniko-build
+    params:
+    - name: image-url
+      value: "$(params.image-url)"
