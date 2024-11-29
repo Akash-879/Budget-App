@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: build-and-push-run
+spec:
+  pipelineRef:
+    name: build-and-push-pipeline
+  params:
+    - name: IMAGE
+      value: akash879/ror:v1
+    - name: DOCKERFILE
+      value: ./Dockerfile
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: source-pvc
+  serviceAccountName: default
